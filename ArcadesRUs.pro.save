@@ -1,0 +1,8 @@
+QT       += core widgets multimedia
+TARGET += ArcadesRUs
+TEMPLATE += app
+SOURCES += main.cpp mainwindow.cpp
+HEADERS += mainwindow.h
+RESOURCES += Resources.qrc
+OTHER_FILES += test.png
+
