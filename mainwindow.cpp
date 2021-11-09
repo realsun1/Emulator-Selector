@@ -1,20 +1,5 @@
-/*
-Name: Nicole Karas
-Student Number: 250984106
-Description: Implemntation for MainWindow class
-MainWindow object is used to to provide a UI for the user to interact with and signal what
-actions need to be done based on user input
-Date: October 5th, 2021
-*/
 #include "mainwindow.h"
-/*
-Function Name: MainWindow()
-Description: Constructor for MainWindow object, initializes all the Q library objects that need to be used to
-create the UI and style them, while also connecting the components to the latter functions that need to run
-when the objects are interacted with
-Parameters: parent; connects the MainWindow to the parent widget that will house everything
-Return: N/A
-*/
+
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
 {
@@ -22,8 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
   layout = new QBoxLayout(QBoxLayout::TopToBottom);
   this->setStyleSheet("MainWindow {background-color: black;}");
 
-  //Creates and styles labels for the various inputs
-
+  // Initialize all the Main Menu UI components and connect them to the appropiate signal function
   title = new QLabel(this);
   title->setTextFormat(Qt::RichText);
   title->setFrameStyle(QFrame::Panel);
@@ -77,27 +61,22 @@ MainWindow::MainWindow(QWidget *parent)
   musicButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; font-size:20px;}  QPushButton:hover{ color: #9900FF;}");
   connect(musicButton, &QPushButton::released, this, &MainWindow::handleMusicButton);
 
+
+  // Add components to layout
   layout->addWidget(title, Qt::AlignCenter);
   layout->addWidget(startButton, Qt::AlignCenter);
   layout->addWidget(statsButton, Qt::AlignCenter);
   layout->addWidget(settingsButton, Qt::AlignCenter);
   layout->addWidget(saveButton, Qt::AlignLeft);
   layout->addWidget(cancelButton, Qt::AlignRight);
-  
+
+  //Initialize Media Player and Change Settings
   player = new QMediaPlayer;
   
   player->setMedia(QUrl("https://www.fesliyanstudios.com/musicfiles/2019-12-11_-_Retro_Platforming_-_David_Fesliyan/2019-12-11_-_Retro_Platforming_-_David_Fesliyan.mp3"));
   player->setVolume(50);
   player->play();
 }
-
-/*
-Function Name: handleButton()
-Description: When a user inputs a command, that command needs to be executed, communicated to the user,
-added to the vector of Processes and added to the History List Widget
-Parameters: N/A
-Return: N/A
-*/
 void MainWindow::handleStartButton()
 {
 
@@ -271,12 +250,7 @@ void MainWindow::handleMusicButton()
 
 }
 
-/*
-Function Name: ~MainWindow()
-Description: Destructor for the MainWindow object
-Parameters: N/A
-Return: N/A
-*/
+// Destructor 
 MainWindow::~MainWindow(){
   delete title;
 }

@@ -1,9 +1,3 @@
-/*
-Name: Nicole Karas
-Student Number: 250984106
-Description: Header file for Main Window class
-Date: October 5th, 2021
-*/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
