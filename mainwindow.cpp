@@ -1,8 +1,27 @@
+/***************************************************************************//**
+ * @brief Class responsible for user interface, experience and GUI
+ *
+ * This class is responsible for handling all user interaction, experience and displaying the GUI.
+ * The main window holds all buttons, the logic and execution of those buttons. It is responsible for 
+ * all user interactions with the software minus the actual playing of the game.
+ *
+ * @authors Nicole Karas, 
+ ******************************************************************************/
 #include "mainwindow.h"
 
 
 string FULL_IMAGE_PATH = "/home/chris/3307/sim/";
 
+/***************************************************************************//**
+ * @brief Constructor for Main Window
+ *
+ * Constructor responsible for creating the initial main menu buttons and attaching them 
+ * to the appropiate button functions
+ * 
+ * @param parent Pointer to the parent widget that holds the main application
+ *
+ * @authors Nicole Karas, 
+ ******************************************************************************/
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
 {
@@ -116,6 +135,15 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
+/***************************************************************************//**
+ * @brief Handler for Game Selection
+ *
+ * Handler responsible for event when game is selected, displays game picture and description
+ * 
+ * @param item List item that represents the game selected
+ *
+ * @authors  
+ ******************************************************************************/
 void MainWindow::handleGameSelected(QListWidgetItem *item) {
 
 	string row = item->text().toStdString();
@@ -164,7 +192,14 @@ void MainWindow::handleGameSelected(QListWidgetItem *item) {
 	gameImageLabel->setPixmap(*pGameImage);
 }
 
-// Button to go back from when a game is selected from list
+/***************************************************************************//**
+ * @brief Handler for Back Button from Game Selection
+ * 
+ * Handles event when back button is clicked from game selection menu, 
+ * goes back from when a game is selected from list
+ *
+ * @authors  
+ ******************************************************************************/
 void MainWindow::handleBackToListButton() {
 
 	gameTextList->setVisible(true);
@@ -174,10 +209,26 @@ void MainWindow::handleBackToListButton() {
 	gameImageLabel->setVisible(false);
 }
 
+/***************************************************************************//**
+ * @brief Handler for Execute Button from Game Selection
+ * 
+ * Handles event when execute button is clicked from game selection menu, 
+ * runs API to actually launch the game selected
+ *
+ * @authors 
+ ******************************************************************************/
 void MainWindow::handleExecuteGameButton() {
 
 }
 
+/***************************************************************************//**
+ * @brief Parser for Games
+ * 
+ * Parses file that stores all games and descriptions for those games to load them
+ * onto the application and display the available games
+ *
+ * @authors  
+ ******************************************************************************/
 void MainWindow::readGameInfo() {
 
     string line;
@@ -236,7 +287,14 @@ void MainWindow::readGameInfo() {
 
 }
 
-// START BUTTON TO EMULATOR
+/***************************************************************************//**
+ * @brief Handler for Start Button
+ * 
+ * Handles event when start button is clicked from main menu, switches application screen
+ * to list of games
+ *
+ * @authors Nicole Karas, 
+ ******************************************************************************/
 void MainWindow::handleStartButton()
 {
 
@@ -274,6 +332,14 @@ void MainWindow::handleStartButton()
 	}	
 }
 
+/***************************************************************************//**
+ * @brief Handler for Stats Button
+ * 
+ * Handles event when stat button is clicked from main menu, switches application screen
+ * to player usage statistics
+ *
+ * @authors Nicole Karas, 
+ ******************************************************************************/
 void MainWindow::handleStatsButton()
 {
 
@@ -281,6 +347,14 @@ void MainWindow::handleStatsButton()
 
 }
 
+/***************************************************************************//**
+ * @brief Handler for Settings Button
+ * 
+ * Handles event when settings button is clicked from main menu, switches application screen
+ * to list of all settings that can be changed by the user
+ *
+ * @authors Nicole Karas, 
+ ******************************************************************************/
 void MainWindow::handleSettingsButton()
 {
   // Display title SETTINGS on click event
@@ -350,27 +424,54 @@ void MainWindow::handleSettingsButton()
   cancelButton->setGeometry(QRect(QPoint(700, 600), QSize(300, 75)));
   cancelButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
 }
-// store red value in QString and parse into QLabel for color preview
+
+/***************************************************************************//**
+ * @brief Stores red value
+ * 
+ * Stores red value in QString and parse into QLabel for color preview
+ *
+ * @authors  
+ ******************************************************************************/
 void MainWindow::redValue()
 {
     r = QString::number(redSlider->value());
     colorPreview->setStyleSheet("QLabel{background-color:rgb("+r+","+g+","+b+");}");
 }
 
-// store green value in QString and parse into QLabel for color preview
+/***************************************************************************//**
+ * @brief Stores green value
+ * 
+ * Stores green value in QString and parse into QLabel for color preview
+ *
+ * @authors  
+ ******************************************************************************/
 void MainWindow::greenValue()
 {
     g = QString::number(greenSlider->value());
     colorPreview->setStyleSheet("QLabel{background-color:rgb("+r+","+g+","+b+");}");
 }
 
-// store blue value in QString and parse into QLabel for color preview
+/***************************************************************************//**
+ * @brief Stores blue value
+ * 
+ * Stores blue value in QString and parse into QLabel for color preview
+ *
+ * @authors  
+ ******************************************************************************/
 void MainWindow::blueValue()
 {
     b = QString::number(blueSlider->value());
     colorPreview->setStyleSheet("QLabel{background-color:rgb("+r+","+g+","+b+");}");
 }
 
+/***************************************************************************//**
+ * @brief Handler for Back Button from Game Selection
+ * 
+ * Handles event when back button is clicked from game selection menu, 
+ * goes back to main menu screen
+ *
+ * @authors
+ ******************************************************************************/
 void MainWindow::handleBackFromStartButton() {
 
 	backFromStartButton->setVisible(false);
@@ -386,6 +487,13 @@ void MainWindow::handleBackFromStartButton() {
 
 }
 
+/***************************************************************************//**
+ * @brief Handler for Save Button
+ * 
+ * Handles event when save button is clicked from settings menu, saves settings changes to application
+ *
+ * @authors 
+ ******************************************************************************/
 void MainWindow::handleSaveButton()
 {
      setStyleSheet("MainWindow {background-color:rgb("+r+","+g+","+b+");}");
@@ -412,6 +520,13 @@ void MainWindow::handleSaveButton()
     title->setText("ARCADES R US &#10070;");
 }
 
+/***************************************************************************//**
+ * @brief Handler for Cancel Button
+ * 
+ * Handles event when cancel button is clicked from settings menu, cancels all changes user made 
+ * in settings
+ *
+ ******************************************************************************/
 void MainWindow::handleCancelButton()
 {
     imageComboBox->setVisible(false);
@@ -430,6 +545,13 @@ void MainWindow::handleCancelButton()
     title->setText("ARCADES R US &#10070;");
 }
 
+/***************************************************************************//**
+ * @brief Handler for Quit Button
+ * 
+ * Handles event when quit button is clicked from main menu, closes main application
+ *
+ * @authors Nicole Karas
+ ******************************************************************************/
 void MainWindow::handleQuitButton()
 {
 
@@ -437,6 +559,13 @@ void MainWindow::handleQuitButton()
 
 }
 
+/***************************************************************************//**
+ * @brief Handler for Music Button
+ * 
+ * Handles event when music button is clicked from main menu, switches music off and on
+ *
+ * @authors Nicole Karas, 
+ ******************************************************************************/
 void MainWindow::handleMusicButton()
 {
 
@@ -455,8 +584,32 @@ void MainWindow::handleMusicButton()
 
 }
 
-// Destructor 
+/***************************************************************************//**
+ * @brief Destructor for Main Window
+ * 
+ * Handles de-allocation of variables when application closed
+ *
+ * @authors Nicole Karas, 
+ ******************************************************************************/
 MainWindow::~MainWindow(){
   delete title;
+  delete colorPreview;
+  delete gameDscrip;
+  delete gameImageLabel;
+  delete layout;
+  delete quitButton;
+  delete saveButton;
+  delete musicButton;
+  delete startButton;
+  delete statsButton;
+  delete cancelButton;
+  delete settingsButton;
+  delete player;
+  delete imageComboBox;
+  delete redSlider;
+  delete blueSlider;
+  delete greenSlider;
+  delete gameTextList;
+  delete gameImage;
 }
 
