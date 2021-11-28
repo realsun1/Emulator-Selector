@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 
+
+string FULL_IMAGE_PATH = "/home/chris/3307/sim/";
+
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
 {
@@ -48,6 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
   cancelButton = new QPushButton("Cancel", this);
   connect(cancelButton, &QPushButton::released, this, &MainWindow::handleCancelButton);
 
+  backFromStartButton = new QPushButton("Back", this);
+  connect(backFromStartButton, &QPushButton::released, this, &MainWindow::handleBackFromStartButton);
+
   imageComboBox->setVisible(false);
   saveButton->setVisible(false);
   cancelButton->setVisible(false);
@@ -55,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
   greenSlider->setVisible(false);
   blueSlider->setVisible(false);
   colorPreview->setVisible(false);
+  backFromStartButton->setVisible(false);
 
   musicButton = new QPushButton("MUTE MUSIC", this);
   musicButton->setGeometry(QRect(QPoint(1050, 650), QSize(200, 100)));
@@ -76,12 +83,195 @@ MainWindow::MainWindow(QWidget *parent)
   player->setMedia(QUrl("https://www.fesliyanstudios.com/musicfiles/2019-12-11_-_Retro_Platforming_-_David_Fesliyan/2019-12-11_-_Retro_Platforming_-_David_Fesliyan.mp3"));
   player->setVolume(50);
   player->play();
+
+
+  // QList
+  gameTextList = new QListWidget(this);
+  gameTextList->setGeometry(QRect(QPoint(450, 300), QSize(400, 250)));
+  connect(gameTextList, &QListWidget::itemClicked, this, &MainWindow::handleGameSelected);
+  gameTextList->setStyleSheet("QListWidget {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QListWidget:hover{ background-color: #9900FF;}");
+  gameTextList->setVisible(false);
+
+  // objects for screen when player selects game
+  gameDscrip = new QLabel(this);
+  gameDscrip->setVisible(false);
+
+  //game image
+  gameImageLabel = new QLabel(this);
+  gameImageLabel->setVisible(false); 
+
+  //PLAY GAME BUTTON
+  executeGameButton = new QPushButton("PLAY", this);
+  executeGameButton->setVisible(false);
+  executeGameButton->setGeometry(QRect(QPoint(350, 600), QSize(300, 75)));
+  executeGameButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
+  connect(executeGameButton, &QPushButton::released, this, &MainWindow::handleExecuteGameButton);
+
+  //GO BACK FROM GAME SELECTION BUTTON
+  goBackToListButton = new QPushButton("BACK", this);
+  goBackToListButton->setVisible(false);
+  goBackToListButton->setGeometry(QRect(QPoint(700, 600), QSize(300, 75)));
+  goBackToListButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
+  connect(goBackToListButton, &QPushButton::released, this, &MainWindow::handleBackToListButton);
+
 }
+
+void MainWindow::handleGameSelected(QListWidgetItem *item) {
+
+	string row = item->text().toStdString();
+	cout << row << endl;
+
+	//need row number to display relevant info
+	string parseOn = ".";
+	int lineNum = row.find(parseOn);
+	
+	string sGameNumberInList = row.substr(0, lineNum);
+	cout << "number: " + sGameNumberInList << endl;
+	int gameNumberInList = stoi(sGameNumberInList);
+	
+	goBackToListButton->setVisible(true);
+	executeGameButton->setVisible(true);
+	gameTextList->setVisible(false);
+
+	QString qstrDisplay;
+	string descriptionToLoad = games[gameNumberInList-1].getDescription();
+	cout << descriptionToLoad << endl;
+	qstrDisplay = QString::fromStdString(descriptionToLoad);
+	gameDscrip->setVisible(true);	
+  	gameDscrip->setGeometry(QRect(QPoint(700, 300), QSize(400, 250)));
+  	gameDscrip->setStyleSheet("QLabel {background-color:rgb(0,0,0); border:2px solid red; font-size:16px; color:#FFFFFF;}");
+	//gameDscrip->setSizePolicy(10);
+	gameDscrip->setText(qstrDisplay);
+	gameDscrip->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+	//gameDscrip->->setStyleSheet("QLabel { background-color: black; font-weight : bold; font-size: 5px; border:none; border-left:5px groove #9900FF; border-right:5px groove #9900FF; color:#00FFFF; }");	
+	gameDscrip->setWordWrap(true);
+	
+	// load image here
+	string imagePath = "images/" + games[gameNumberInList-1].getImage();
+	cout << imagePath << endl;
+	QString qstrGame;
+	qstrGame = QString::fromStdString(imagePath);
+	
+    gameImageLabel->setGeometry(QRect(QPoint(400, 300), QSize(250, 250)));
+  	gameImageLabel->setStyleSheet("QLabel {background-color:rgb(0,0,0); border:2px solid red; font-size:16px; color:#FFFFFF;}");
+	gameImageLabel->setVisible(true);
+	QPixmap* pGameImage = new QPixmap(qstrGame);
+    QPixmap gameImage(":/home/chris/3307/sim/images/PE.jpg");
+	//gameImageLabel->setPixmap(gameImage);
+	//if(gameImage == NULL) {
+	//	cout << "game image null" << endl;
+	//}
+	gameImageLabel->setPixmap(*pGameImage);
+}
+
+// Button to go back from when a game is selected from list
+void MainWindow::handleBackToListButton() {
+
+	gameTextList->setVisible(true);
+	executeGameButton->setVisible(false);
+	goBackToListButton->setVisible(false);
+	gameDscrip->setVisible(false);
+	gameImageLabel->setVisible(false);
+}
+
+void MainWindow::handleExecuteGameButton() {
+
+}
+
+void MainWindow::readGameInfo() {
+
+    string line;
+    ifstream file;
+    string delim = "|";
+    int pos;
+    int gameListPos = 0;
+    file.open("games.txt");
+
+    while (getline(file, line)) {
+
+        // current line
+        cout << "current line is: " + line << endl;
+        pos = line.find(delim);
+
+        string currWord = line.substr(0, pos);
+        games[gameListPos].setTitle(currWord);
+        cout << "Game Title: " + games[gameListPos].getTitle() << endl;
+
+        // getting next set of game info (ROM)
+        string nextSetOfline = line.substr(pos+1);
+        pos = nextSetOfline.find(delim);
+        currWord = nextSetOfline.substr(0, pos);
+        cout << "Rom: " + currWord << endl;
+        games[gameListPos].setRom(currWord);
+
+        //next set of info (emulator)
+        string finalSetOfLine = nextSetOfline.substr(pos+1);
+        pos = finalSetOfLine.find(delim);
+        currWord = finalSetOfLine.substr(0, pos);
+        cout << "Emulator: " + currWord << endl;
+        games[gameListPos].setEmulator(currWord);
+
+        // getting next set of game info (image)
+        string nextSetline = finalSetOfLine.substr(pos+1);
+        pos = nextSetline.find(delim);
+        currWord = nextSetline.substr(0, pos);
+        cout << "Image: " + currWord << endl;
+        games[gameListPos].setImage(currWord);
+
+        // getting next set of game info (Description)
+        string FnextSetOfline = nextSetline.substr(pos+1);
+        pos = FnextSetOfline.find(delim);
+        currWord = FnextSetOfline.substr(0, pos);
+        cout << "description: " + currWord << endl;
+        games[gameListPos].setDescription(currWord);
+
+        cout << gameListPos << endl;
+
+        // Done setting info for game, go to next slot in the game obj array
+        gameListPos = gameListPos + 1;
+
+    }
+    // returns amount of games in list
+    numAvailableGames = gameListPos;
+
+}
+
+// START BUTTON TO EMULATOR
 void MainWindow::handleStartButton()
 {
 
-  title->setText("START");
+	readGameInfo();
+  	title->setText("SELECT");
+	
+	// Hide other push buttons on click event
+ 	startButton->setVisible(false);
+  	statsButton->setVisible(false);
+  	settingsButton->setVisible(false);
+  	quitButton->setVisible(false);
+	
+  	// set back button to be visible
+	backFromStartButton->setVisible(true);
+  	backFromStartButton->setGeometry(QRect(QPoint(700, 600), QSize(300, 75)));
+  	backFromStartButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
+	
+	// Game list made visible
+	gameTextList->setVisible(true);
 
+	string strToDisplay;
+	QString qstrToDisplay;
+	string listNum;
+
+	// Load List with selectable games
+	for(int i=0;i<numAvailableGames;i++) {
+	
+		listNum = to_string(i+1);
+		strToDisplay = listNum + ". " + games[i].getTitle();	
+		cout << strToDisplay << endl;
+
+		qstrToDisplay = QString::fromStdString(strToDisplay);
+		gameTextList->addItem(qstrToDisplay);
+
+	}	
 }
 
 void MainWindow::handleStatsButton()
@@ -179,6 +369,21 @@ void MainWindow::blueValue()
 {
     b = QString::number(blueSlider->value());
     colorPreview->setStyleSheet("QLabel{background-color:rgb("+r+","+g+","+b+");}");
+}
+
+void MainWindow::handleBackFromStartButton() {
+
+	backFromStartButton->setVisible(false);
+	gameTextList->setVisible(false);
+    startButton->setVisible(true);
+    statsButton->setVisible(true);
+    settingsButton->setVisible(true);
+    quitButton->setVisible(true);
+    imageComboBox->setCurrentIndex(0);
+    title->setText("ARCADES R US &#10070;");
+	gameTextList->clear();
+    gameTextList->setStyleSheet("QListWidget {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QListWidget:hover{ background-color: #9900FF;}");
+
 }
 
 void MainWindow::handleSaveButton()
