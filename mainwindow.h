@@ -1,7 +1,7 @@
 /***************************************************************************//**
  * @brief Header file for Main Window
  *
- * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen
+ * @authors Nicole Karas, 
  ******************************************************************************/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -37,6 +37,9 @@ private slots:
   void handleBackFromStartButton();
   void handleStartButton();
   void handleStatsButton();
+  void handlestatsSelect();
+  void handleBackFromStatsButton();
+  void handleBacktoStats();
   void handleSettingsButton();
   void handleQuitButton();
   void handleSaveButton();
@@ -56,14 +59,14 @@ private slots:
 
 private:
 
-  QLabel *title, *colorPreview, *gameDscrip, *gameImageLabel;
+  QLabel *title, *colorPreview, *gameDscrip, *gameImageLabel, *Stats, *favgame, *favgametitle, *highestscoreTitle, *highestscore, *timeplayedTitle, *timePlayed;
   QBoxLayout *layout;
-  QPushButton *startButton, *statsButton, *settingsButton, *quitButton, *saveButton, *cancelButton, *musicButton, *backFromStartButton, *executeGameButton, *goBackToListButton;
+  QPushButton *startButton, *statsButton, *settingsButton, *quitButton, *saveButton, *cancelButton, *musicButton, *backFromStartButton, *executeGameButton, *goBackToListButton, *SstatsButton, *goBackFromStatsButton, *gobackStats;
   QMediaPlayer *player;
   QComboBox *imageComboBox;
   QSlider *redSlider, *greenSlider, *blueSlider;
   QString r,g,b;
-  QListWidget *gameTextList;
+  QListWidget *gameTextList,*StatsList;
   QPixmap *gameImage;
 
 };

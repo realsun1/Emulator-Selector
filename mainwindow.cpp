@@ -5,12 +5,12 @@
  * The main window holds all buttons, the logic and execution of those buttons. It is responsible for 
  * all user interactions with the software minus the actual playing of the game.
  *
- * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen
+ * @authors Nicole Karas, 
  ******************************************************************************/
 #include "mainwindow.h"
 
 
-
+string FULL_IMAGE_PATH = "/home/chris/3307/sim/";
 
 /***************************************************************************//**
  * @brief Constructor for Main Window
@@ -20,7 +20,7 @@
  * 
  * @param parent Pointer to the parent widget that holds the main application
  *
- * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen
+ * @authors Nicole Karas, 
  ******************************************************************************/
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
@@ -133,6 +133,54 @@ MainWindow::MainWindow(QWidget *parent)
   goBackToListButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
   connect(goBackToListButton, &QPushButton::released, this, &MainWindow::handleBackToListButton);
 
+  //status
+  //SstatsButton = new QPushButton("Stats", this);
+  //SstatsButton->setVisible(false);
+  //SstatsButton->setGeometry(QRect(QPoint(350, 600), QSize(300, 75)));
+  //SstatsButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
+  //connect(SstatsButton, &QPushButton::released, this, &MainWindow::handlestatus);
+
+  StatsList = new QListWidget(this);
+  StatsList->setGeometry(QRect(QPoint(450, 300), QSize(400, 250)));
+  connect(StatsList, &QListWidget::itemClicked, this, &MainWindow::handlestatsSelect);
+  StatsList->setStyleSheet("QListWidget {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QListWidget:hover{ background-color: #9900FF;}");
+  StatsList->setVisible(false);
+
+  goBackFromStatsButton = new QPushButton("BACK", this);
+  goBackFromStatsButton->setVisible(false);
+  goBackFromStatsButton->setGeometry(QRect(QPoint(700, 600), QSize(300, 75)));
+  goBackFromStatsButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
+  connect(goBackFromStatsButton, &QPushButton::released, this, &MainWindow::handleBackFromStatsButton);
+
+  gobackStats = new QPushButton("BACK", this);
+  gobackStats->setVisible(false);
+  gobackStats->setGeometry(QRect(QPoint(700, 600), QSize(300, 75)));
+  gobackStats->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
+  connect(gobackStats, &QPushButton::released, this, &MainWindow::handleBacktoStats);
+
+  Stats = new QLabel(this);
+  Stats->setVisible(false);
+  
+  favgametitle = new QLabel(this);
+  favgametitle->setVisible(true);
+
+  favgame = new QLabel(this);
+  favgame->setVisible(false);
+
+  highestscoreTitle = new QLabel(this);
+  highestscoreTitle->setText("Highest Score:");
+  highestscoreTitle->setVisible(true);
+
+  highestscore = new QLabel(this);
+  highestscore->setVisible(true);
+
+  timeplayedTitle = new QLabel(this);
+  timeplayedTitle->setText("Time Played:");
+  timeplayedTitle->setVisible(true);
+  
+  timePlayed = new QLabel(this);
+  timePlayed->setVisible(true);
+
 }
 
 /***************************************************************************//**
@@ -142,7 +190,7 @@ MainWindow::MainWindow(QWidget *parent)
  * 
  * @param item List item that represents the game selected
  *
- * @authors  Christopher Judkins
+ * @authors  
  ******************************************************************************/
 void MainWindow::handleGameSelected(QListWidgetItem *item) {
 
@@ -198,7 +246,7 @@ void MainWindow::handleGameSelected(QListWidgetItem *item) {
  * Handles event when back button is clicked from game selection menu, 
  * goes back from when a game is selected from list
  *
- * @authors  Christopher Judkins
+ * @authors  
  ******************************************************************************/
 void MainWindow::handleBackToListButton() {
 
@@ -215,7 +263,7 @@ void MainWindow::handleBackToListButton() {
  * Handles event when execute button is clicked from game selection menu, 
  * runs API to actually launch the game selected
  *
- * @authors Christopher Judkins
+ * @authors 
  ******************************************************************************/
 void MainWindow::handleExecuteGameButton() {
 
@@ -227,7 +275,7 @@ void MainWindow::handleExecuteGameButton() {
  * Parses file that stores all games and descriptions for those games to load them
  * onto the application and display the available games
  *
- * @authors  Christopher Judkins
+ * @authors  
  ******************************************************************************/
 void MainWindow::readGameInfo() {
 
@@ -293,7 +341,7 @@ void MainWindow::readGameInfo() {
  * Handles event when start button is clicked from main menu, switches application screen
  * to list of games
  *
- * @authors Nicole Karas, Christopher Judkins
+ * @authors Nicole Karas, 
  ******************************************************************************/
 void MainWindow::handleStartButton()
 {
@@ -340,10 +388,91 @@ void MainWindow::handleStartButton()
  *
  * @authors Nicole Karas, 
  ******************************************************************************/
+void MainWindow::handleBacktoStats(){
+  StatsList->setVisible(true);
+  goBackFromStatsButton->setVisible(true);
+  title->setVisible(true);
+  favgametitle->setVisible(true);
+
+  gobackStats->setVisible(false);
+  Stats->setVisible(false);
+  timeplayedTitle->setVisible(false);
+  highestscoreTitle->setVisible(false);
+}
+
+void MainWindow::handleBackFromStatsButton(){
+  goBackFromStatsButton->setVisible(false);
+  StatsList->setVisible(false);
+  favgametitle->setVisible(false);
+  startButton->setVisible(true);
+  statsButton->setVisible(true);
+  settingsButton->setVisible(true);
+  quitButton->setVisible(true);
+  title->setText("ARCADES R US &#10070;");
+
+  StatsList->clear();
+  StatsList->setStyleSheet("QListWidget {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QListWidget:hover{ background-color: #9900FF;}");
+
+}
+void MainWindow::handlestatsSelect(){
+  favgametitle->setVisible(false);
+
+  StatsList->setVisible(false);
+  goBackFromStatsButton->setVisible(false);
+  title->setVisible(false);
+  
+  highestscoreTitle->setVisible(true);
+  highestscoreTitle->setGeometry(QRect(QPoint(250, 200), QSize(700, 75)));
+  highestscoreTitle->setStyleSheet("QLabel { background-color: black; font-weight : bold; font-size: 24px; border:none; color:#00FFFF; }");
+
+  timeplayedTitle->setVisible(true);
+  timeplayedTitle->setGeometry(QRect(QPoint(250, 350), QSize(700, 75)));
+  timeplayedTitle->setStyleSheet("QLabel { background-color: black; font-weight : bold; font-size: 24px; border:none; color:#00FFFF; }");
+
+  gobackStats->setVisible(true);
+
+  Stats->setText("stats");
+  Stats->setVisible(true);
+  
+}
+//void MainWindow::handlestatus()
+//{
+
+//}
 void MainWindow::handleStatsButton()
 {
+  readGameInfo();
 
   title->setText("STATS");
+  startButton->setVisible(false);
+  statsButton->setVisible(false);
+  settingsButton->setVisible(false);
+  quitButton->setVisible(false);
+
+  
+  favgametitle->setVisible(true);
+  favgametitle->setText("Favourite game:");
+  favgametitle->setGeometry(QRect(QPoint(250, 200), QSize(700, 75)));
+  favgametitle->setStyleSheet("QLabel { background-color: black; font-weight : bold; font-size: 24px; border:none; color:#00FFFF; }");
+  
+  StatsList->setVisible(true);
+  goBackFromStatsButton->setVisible(true);
+
+  string strToDisplay;
+	QString qstrToDisplay;
+	string listNum;
+
+	// Load List with selectable games
+	for(int i=0;i<numAvailableGames;i++) {
+	
+		listNum = to_string(i+1);
+		strToDisplay = listNum + ". " + games[i].getTitle();	
+		cout << strToDisplay << endl;
+
+		qstrToDisplay = QString::fromStdString(strToDisplay);
+		StatsList->addItem(qstrToDisplay);
+  }
+  
 
 }
 
@@ -353,7 +482,7 @@ void MainWindow::handleStatsButton()
  * Handles event when settings button is clicked from main menu, switches application screen
  * to list of all settings that can be changed by the user
  *
- * @authors Nicole Karas, Sundin Nguyen
+ * @authors Nicole Karas, 
  ******************************************************************************/
 void MainWindow::handleSettingsButton()
 {
@@ -430,7 +559,7 @@ void MainWindow::handleSettingsButton()
  * 
  * Stores red value in QString and parse into QLabel for color preview
  *
- * @authors Sundin Nguyen
+ * @authors  
  ******************************************************************************/
 void MainWindow::redValue()
 {
@@ -443,7 +572,7 @@ void MainWindow::redValue()
  * 
  * Stores green value in QString and parse into QLabel for color preview
  *
- * @authors Sundin Nguyen
+ * @authors  
  ******************************************************************************/
 void MainWindow::greenValue()
 {
@@ -456,7 +585,7 @@ void MainWindow::greenValue()
  * 
  * Stores blue value in QString and parse into QLabel for color preview
  *
- * @authors Sundin Nguyen
+ * @authors  
  ******************************************************************************/
 void MainWindow::blueValue()
 {
@@ -470,7 +599,7 @@ void MainWindow::blueValue()
  * Handles event when back button is clicked from game selection menu, 
  * goes back to main menu screen
  *
- * @authors Christopher Judkins
+ * @authors
  ******************************************************************************/
 void MainWindow::handleBackFromStartButton() {
 
@@ -492,7 +621,7 @@ void MainWindow::handleBackFromStartButton() {
  * 
  * Handles event when save button is clicked from settings menu, saves settings changes to application
  *
- * @authors Sundin Nguyen
+ * @authors 
  ******************************************************************************/
 void MainWindow::handleSaveButton()
 {
@@ -526,7 +655,6 @@ void MainWindow::handleSaveButton()
  * Handles event when cancel button is clicked from settings menu, cancels all changes user made 
  * in settings
  *
- * @authors Sundin Nguyen
  ******************************************************************************/
 void MainWindow::handleCancelButton()
 {
