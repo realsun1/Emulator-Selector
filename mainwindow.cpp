@@ -5,12 +5,11 @@
  * The main window holds all buttons, the logic and execution of those buttons. It is responsible for 
  * all user interactions with the software minus the actual playing of the game.
  *
- * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen
+ * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen, Junshen Xu
  ******************************************************************************/
 #include "mainwindow.h"
 
 
-string FULL_IMAGE_PATH = "/home/chris/3307/sim/";
 
 /***************************************************************************//**
  * @brief Constructor for Main Window
@@ -20,7 +19,7 @@ string FULL_IMAGE_PATH = "/home/chris/3307/sim/";
  * 
  * @param parent Pointer to the parent widget that holds the main application
  *
- * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen
+ * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen, Junshen Xu
  ******************************************************************************/
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
@@ -132,13 +131,6 @@ MainWindow::MainWindow(QWidget *parent)
   goBackToListButton->setGeometry(QRect(QPoint(700, 600), QSize(300, 75)));
   goBackToListButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
   connect(goBackToListButton, &QPushButton::released, this, &MainWindow::handleBackToListButton);
-
-  //status
-  //SstatsButton = new QPushButton("Stats", this);
-  //SstatsButton->setVisible(false);
-  //SstatsButton->setGeometry(QRect(QPoint(350, 600), QSize(300, 75)));
-  //SstatsButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
-  //connect(SstatsButton, &QPushButton::released, this, &MainWindow::handlestatus);
 
   StatsList = new QListWidget(this);
   StatsList->setGeometry(QRect(QPoint(450, 300), QSize(400, 250)));
@@ -381,12 +373,12 @@ void MainWindow::handleStartButton()
 }
 
 /***************************************************************************//**
- * @brief Handler for Stats Button
+ * @brief Handler for gobackStats button
  * 
- * Handles event when stat button is clicked from main menu, switches application screen
+ * Handles event when Back button is clicked from stats page, switches application screen
  * to player usage statistics
  *
- * @authors Nicole Karas, 
+ * @authors Junshen Xu
  ******************************************************************************/
 void MainWindow::handleBacktoStats(){
   StatsList->setVisible(true);
@@ -399,7 +391,14 @@ void MainWindow::handleBacktoStats(){
   timeplayedTitle->setVisible(false);
   highestscoreTitle->setVisible(false);
 }
-
+/***************************************************************************//**
+ * @brief Handler for goBackFromStatsButton button
+ * 
+ * Handles event when Back button is clicked from statistics page, switches application screen
+ * to main menu screen
+ *
+ * @authors Junshen Xu
+ ******************************************************************************/
 void MainWindow::handleBackFromStatsButton(){
   goBackFromStatsButton->setVisible(false);
   StatsList->setVisible(false);
@@ -414,6 +413,14 @@ void MainWindow::handleBackFromStatsButton(){
   StatsList->setStyleSheet("QListWidget {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QListWidget:hover{ background-color: #9900FF;}");
 
 }
+/***************************************************************************//**
+ * @brief Handler for goBackFromStatsButton button
+ * 
+ * Handles event when a game is selected from statistics page, switches application screen
+ * to stats page, then display the stats for that game.
+ *
+ * @authors Junshen Xu
+ ******************************************************************************/
 void MainWindow::handlestatsSelect(){
   favgametitle->setVisible(false);
 
@@ -435,10 +442,14 @@ void MainWindow::handlestatsSelect(){
   Stats->setVisible(true);
   
 }
-//void MainWindow::handlestatus()
-//{
-
-//}
+/***************************************************************************//**
+ * @brief Handler for Stats Button
+ * 
+ * Handles event when stat button is clicked from main menu, switches application screen
+ * to player usage statistics
+ *
+ * @authors Nicole Karas, Junshen Xu
+ ******************************************************************************/
 void MainWindow::handleStatsButton()
 {
   readGameInfo();
