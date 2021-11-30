@@ -5,7 +5,7 @@
  * The main window holds all buttons, the logic and execution of those buttons. It is responsible for 
  * all user interactions with the software minus the actual playing of the game.
  *
- * @authors Nicole Karas, 
+ * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen
  ******************************************************************************/
 #include "mainwindow.h"
 
@@ -20,7 +20,7 @@ string FULL_IMAGE_PATH = "/home/chris/3307/sim/";
  * 
  * @param parent Pointer to the parent widget that holds the main application
  *
- * @authors Nicole Karas, 
+ * @authors Nicole Karas, Christopher Judkins
  ******************************************************************************/
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
@@ -190,7 +190,7 @@ MainWindow::MainWindow(QWidget *parent)
  * 
  * @param item List item that represents the game selected
  *
- * @authors  
+ * @authors  Christopher Judkins
  ******************************************************************************/
 void MainWindow::handleGameSelected(QListWidgetItem *item) {
 
@@ -246,7 +246,7 @@ void MainWindow::handleGameSelected(QListWidgetItem *item) {
  * Handles event when back button is clicked from game selection menu, 
  * goes back from when a game is selected from list
  *
- * @authors  
+ * @authors  Christopher Judkins
  ******************************************************************************/
 void MainWindow::handleBackToListButton() {
 
@@ -263,7 +263,7 @@ void MainWindow::handleBackToListButton() {
  * Handles event when execute button is clicked from game selection menu, 
  * runs API to actually launch the game selected
  *
- * @authors 
+ * @authors Christopher Judkins
  ******************************************************************************/
 void MainWindow::handleExecuteGameButton() {
 
@@ -275,7 +275,7 @@ void MainWindow::handleExecuteGameButton() {
  * Parses file that stores all games and descriptions for those games to load them
  * onto the application and display the available games
  *
- * @authors  
+ * @authors  Christopher Judkins
  ******************************************************************************/
 void MainWindow::readGameInfo() {
 
@@ -341,7 +341,7 @@ void MainWindow::readGameInfo() {
  * Handles event when start button is clicked from main menu, switches application screen
  * to list of games
  *
- * @authors Nicole Karas, 
+ * @authors Nicole Karas, Christopher Judkins
  ******************************************************************************/
 void MainWindow::handleStartButton()
 {
@@ -482,7 +482,7 @@ void MainWindow::handleStatsButton()
  * Handles event when settings button is clicked from main menu, switches application screen
  * to list of all settings that can be changed by the user
  *
- * @authors Nicole Karas, 
+ * @authors Nicole Karas, Sundin Nguyen
  ******************************************************************************/
 void MainWindow::handleSettingsButton()
 {
@@ -559,7 +559,7 @@ void MainWindow::handleSettingsButton()
  * 
  * Stores red value in QString and parse into QLabel for color preview
  *
- * @authors  
+ * @authors  Sundin Nguyen
  ******************************************************************************/
 void MainWindow::redValue()
 {
@@ -572,7 +572,7 @@ void MainWindow::redValue()
  * 
  * Stores green value in QString and parse into QLabel for color preview
  *
- * @authors  
+ * @authors  Sundin Nguyen
  ******************************************************************************/
 void MainWindow::greenValue()
 {
@@ -585,7 +585,7 @@ void MainWindow::greenValue()
  * 
  * Stores blue value in QString and parse into QLabel for color preview
  *
- * @authors  
+ * @authors  Sundin Nguyen
  ******************************************************************************/
 void MainWindow::blueValue()
 {
@@ -599,7 +599,7 @@ void MainWindow::blueValue()
  * Handles event when back button is clicked from game selection menu, 
  * goes back to main menu screen
  *
- * @authors
+ * @authors Christopher Judkins
  ******************************************************************************/
 void MainWindow::handleBackFromStartButton() {
 
@@ -621,7 +621,7 @@ void MainWindow::handleBackFromStartButton() {
  * 
  * Handles event when save button is clicked from settings menu, saves settings changes to application
  *
- * @authors 
+ * @authors Sundin Nguyen
  ******************************************************************************/
 void MainWindow::handleSaveButton()
 {
@@ -655,6 +655,7 @@ void MainWindow::handleSaveButton()
  * Handles event when cancel button is clicked from settings menu, cancels all changes user made 
  * in settings
  *
+ * @authors Sundin Nguyen
  ******************************************************************************/
 void MainWindow::handleCancelButton()
 {
