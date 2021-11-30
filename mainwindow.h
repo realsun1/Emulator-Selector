@@ -1,7 +1,7 @@
 /***************************************************************************//**
  * @brief Header file for Main Window
  *
- * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen
+ * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen, Junshen Xu
  ******************************************************************************/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
