@@ -5,7 +5,7 @@
  * The main window holds all buttons, the logic and execution of those buttons. It is responsible for 
  * all user interactions with the software minus the actual playing of the game.
  *
- * @authors Nicole Karas, Christopher Judkins 
+ * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen
  ******************************************************************************/
 #include "mainwindow.h"
 
@@ -353,7 +353,7 @@ void MainWindow::handleStatsButton()
  * Handles event when settings button is clicked from main menu, switches application screen
  * to list of all settings that can be changed by the user
  *
- * @authors Nicole Karas, 
+ * @authors Nicole Karas, Sundin Nguyen
  ******************************************************************************/
 void MainWindow::handleSettingsButton()
 {
@@ -430,7 +430,7 @@ void MainWindow::handleSettingsButton()
  * 
  * Stores red value in QString and parse into QLabel for color preview
  *
- * @authors  
+ * @authors Sundin Nguyen
  ******************************************************************************/
 void MainWindow::redValue()
 {
@@ -443,7 +443,7 @@ void MainWindow::redValue()
  * 
  * Stores green value in QString and parse into QLabel for color preview
  *
- * @authors  
+ * @authors Sundin Nguyen
  ******************************************************************************/
 void MainWindow::greenValue()
 {
@@ -456,7 +456,7 @@ void MainWindow::greenValue()
  * 
  * Stores blue value in QString and parse into QLabel for color preview
  *
- * @authors  
+ * @authors Sundin Nguyen
  ******************************************************************************/
 void MainWindow::blueValue()
 {
@@ -492,7 +492,7 @@ void MainWindow::handleBackFromStartButton() {
  * 
  * Handles event when save button is clicked from settings menu, saves settings changes to application
  *
- * @authors 
+ * @authors Sundin Nguyen
  ******************************************************************************/
 void MainWindow::handleSaveButton()
 {
@@ -526,6 +526,7 @@ void MainWindow::handleSaveButton()
  * Handles event when cancel button is clicked from settings menu, cancels all changes user made 
  * in settings
  *
+ * @authors Sundin Nguyen
  ******************************************************************************/
 void MainWindow::handleCancelButton()
 {
