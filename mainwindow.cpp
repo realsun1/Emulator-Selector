@@ -131,19 +131,22 @@ MainWindow::MainWindow(QWidget *parent)
   goBackToListButton->setGeometry(QRect(QPoint(700, 600), QSize(300, 75)));
   goBackToListButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
   connect(goBackToListButton, &QPushButton::released, this, &MainWindow::handleBackToListButton);
-
+  
+  //select list for stats page
   StatsList = new QListWidget(this);
   StatsList->setGeometry(QRect(QPoint(450, 300), QSize(400, 250)));
   connect(StatsList, &QListWidget::itemClicked, this, &MainWindow::handlestatsSelect);
   StatsList->setStyleSheet("QListWidget {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QListWidget:hover{ background-color: #9900FF;}");
   StatsList->setVisible(false);
 
+  //go back from stats page
   goBackFromStatsButton = new QPushButton("BACK", this);
   goBackFromStatsButton->setVisible(false);
   goBackFromStatsButton->setGeometry(QRect(QPoint(700, 600), QSize(300, 75)));
   goBackFromStatsButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
   connect(goBackFromStatsButton, &QPushButton::released, this, &MainWindow::handleBackFromStatsButton);
 
+//go back from selected stats page
   gobackStats = new QPushButton("BACK", this);
   gobackStats->setVisible(false);
   gobackStats->setGeometry(QRect(QPoint(700, 600), QSize(300, 75)));
@@ -152,7 +155,7 @@ MainWindow::MainWindow(QWidget *parent)
 
   Stats = new QLabel(this);
   Stats->setVisible(false);
-  
+//labels for stats
   favgametitle = new QLabel(this);
   favgametitle->setVisible(true);
 
