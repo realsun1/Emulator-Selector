@@ -20,7 +20,7 @@
  * 
  * @param parent Pointer to the parent widget that holds the main application
  *
- * @authors Nicole Karas, Christopher Judkins
+ * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen
  ******************************************************************************/
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
