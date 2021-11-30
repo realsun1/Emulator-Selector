@@ -1,7 +1,19 @@
+/***************************************************************************//**
+ * @brief Class responsible for storing game information parsed from file into a class
+ *
+ * This class is responsible for taking game information from a text file, parsing
+ * the game title, rom name, emulator that will be used, image for game and brief
+ * description of the game. Text file describes games that will be able to be played
+ * from the program.
+ * This enables the ability to add or remove without the need to compile the program again.
+ * This class holds all getters and setters too for easy ability to create game objects to retrieve
+ * or store game info.
+ * @authors Christopher Judkins
+ ******************************************************************************/
 #include "gameInfo.h"
 #include <iostream>
 #include <fstream>
-#include<string>
+#include <string>
 
 using namespace std;
 

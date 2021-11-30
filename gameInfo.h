@@ -1,3 +1,8 @@
+/***************************************************************************//**
+ * @brief Header file for gameInfo
+ *
+ * @authors Christopher Judkins
+ ******************************************************************************/
 #include <iostream>
 #include <fstream>
 #include<string>
