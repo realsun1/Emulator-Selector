@@ -5,7 +5,7 @@
  * The main window holds all buttons, the logic and execution of those buttons. It is responsible for 
  * all user interactions with the software minus the actual playing of the game.
  *
- * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen, Junshen Xu
+ * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen, Junshen Xu, Ryan Howarth
  ******************************************************************************/
 #include "mainwindow.h"
 
