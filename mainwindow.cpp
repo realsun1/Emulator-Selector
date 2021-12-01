@@ -163,7 +163,7 @@ MainWindow::MainWindow(QWidget *parent)
   favgame->setVisible(false);
 
   highestscoreTitle = new QLabel(this);
-  highestscoreTitle->setText("Highest Score:");
+  highestscoreTitle->setText("Number of time played:");
   highestscoreTitle->setVisible(true);
 
   highestscore = new QLabel(this);
@@ -176,6 +176,9 @@ MainWindow::MainWindow(QWidget *parent)
   timePlayed = new QLabel(this);
   timePlayed->setVisible(true);
 
+  readstats();
+  
+  
 }
 
 /***************************************************************************//**
@@ -199,6 +202,7 @@ void MainWindow::handleGameSelected(QListWidgetItem *item) {
 	string sGameNumberInList = row.substr(0, lineNum);
 	cout << "number: " + sGameNumberInList << endl;
 	int gameNumberInList = stoi(sGameNumberInList);
+  gameselected = gameNumberInList;
 	
 	goBackToListButton->setVisible(true);
 	executeGameButton->setVisible(true);
@@ -258,9 +262,19 @@ void MainWindow::handleBackToListButton() {
  * Handles event when execute button is clicked from game selection menu, 
  * runs API to actually launch the game selected
  *
- * @authors Christopher Judkins
+ * @authors Christopher Judkins,Junshen Xu
  ******************************************************************************/
 void MainWindow::handleExecuteGameButton() {
+  //add and update number of time played for selected game
+  string Snum=stats[gameselected-1].getNum();
+  int num = stoi(Snum);
+  num=num+1;
+  string res=to_string(num);
+  stats[gameselected-1].setnumtime(res);
+  writestatsNum(gameselected);
+  
+
+
 
 }
 
@@ -329,6 +343,84 @@ void MainWindow::readGameInfo() {
     numAvailableGames = gameListPos;
 
 }
+/***************************************************************************//**
+ * @brief read from stats.txt file
+ * 
+ * read all the stats and stored in the statsinfo 
+ *
+ * @authors  Junshen Xu
+ ******************************************************************************/
+void MainWindow::readstats(){
+  string Sline;
+  ifstream Sfile;
+  string delim = "|";
+  int pos;
+  int statsPostition = 0;
+  Sfile.open("stats.txt");
+  while (getline(Sfile, Sline)) {
+     cout << "current line is: " + Sline << endl;
+        pos = Sline.find(delim);
+    
+    cout<< statsPostition <<endl;
+    string currWord = Sline.substr(0, pos);
+      stats[statsPostition].setTitle(currWord);
+    cout << "description: " + stats[statsPostition].getTitle() << endl;
+    string nextSetOfline = Sline.substr(pos+1);
+      pos = nextSetOfline.find(delim);
+      currWord = nextSetOfline.substr(0, pos);
+      stats[statsPostition].settimePlayed(currWord);
+          cout << "t: " + stats[statsPostition].getTime() << endl;
+
+    string finalSetOfLine = nextSetOfline.substr(pos+1);
+        pos = finalSetOfLine.find(delim);
+        currWord = finalSetOfLine.substr(0, pos);
+        stats[statsPostition].setnumtime(currWord);
+            cout << "n: " + stats[statsPostition].getNum() << endl;
+    statsPostition=statsPostition+1;
+  }
+  
+
+}
+/***************************************************************************//**
+ * @brief write to the stats file
+ * 
+ * write updated num of time played into the file 
+ *
+ * @authors  Junshen Xu
+ ******************************************************************************/
+void MainWindow::writestatsNum(int line){
+    string in;
+    int lineF=0;
+    fstream inputfile("stats.txt");
+    ofstream outputfile("statstmp.txt");
+    while(getline(inputfile, in)){
+      lineF=lineF+1;
+      if(lineF==line){
+        in=stats[line-1].getTitle()+"|"+stats[line-1].getTime()+"|"+stats[line-1].getNum();
+      }
+      outputfile<<in<<endl;
+
+    }
+    remove("stats.txt");
+    rename("statstmp.txt","stats.txt");
+   
+    /**fstream statsfile("stats.txt");
+    string line8;
+    statsfile.seekg(std::ios::beg);
+    for(int i=0; i < line - 1; ++i){
+        statsfile.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    }
+    //statsfile.open("stats.txt");
+    getline(statsfile,line8);
+
+    line8=stats[line-1].getTitle()+"|"+stats[line-1].getTime()+"|"+stats[line-1].getNum();
+    cout <<line8 <<endl;
+    
+    statsfile.close();
+**/
+}
+
+
 
 /***************************************************************************//**
  * @brief Handler for Start Button
@@ -388,12 +480,15 @@ void MainWindow::handleBacktoStats(){
   goBackFromStatsButton->setVisible(true);
   title->setVisible(true);
   favgametitle->setVisible(true);
+  favgame->setVisible(true);
 
   gobackStats->setVisible(false);
   Stats->setVisible(false);
   timeplayedTitle->setVisible(false);
   highestscoreTitle->setVisible(false);
-}
+  highestscore->setVisible(false);
+
+;}
 /***************************************************************************//**
  * @brief Handler for goBackFromStatsButton button
  * 
@@ -406,6 +501,7 @@ void MainWindow::handleBackFromStatsButton(){
   goBackFromStatsButton->setVisible(false);
   StatsList->setVisible(false);
   favgametitle->setVisible(false);
+  favgame->setVisible(false);
   startButton->setVisible(true);
   statsButton->setVisible(true);
   settingsButton->setVisible(true);
@@ -424,9 +520,17 @@ void MainWindow::handleBackFromStatsButton(){
  *
  * @authors Junshen Xu
  ******************************************************************************/
-void MainWindow::handlestatsSelect(){
-  favgametitle->setVisible(false);
+void MainWindow::handlestatsSelect(QListWidgetItem *item){
 
+  string row = item->text().toStdString();
+	//need row number to display relevant info
+	string parseOn = ".";
+	int lineNum = row.find(parseOn);
+  string sGameNumberInList = row.substr(0, lineNum);
+	int gameNumberInList = stoi(sGameNumberInList); 
+
+  favgametitle->setVisible(false);
+  favgame->setVisible(false);
   StatsList->setVisible(false);
   goBackFromStatsButton->setVisible(false);
   title->setVisible(false);
@@ -434,6 +538,17 @@ void MainWindow::handlestatsSelect(){
   highestscoreTitle->setVisible(true);
   highestscoreTitle->setGeometry(QRect(QPoint(250, 200), QSize(700, 75)));
   highestscoreTitle->setStyleSheet("QLabel { background-color: black; font-weight : bold; font-size: 24px; border:none; color:#00FFFF; }");
+
+  
+  highestscore->setGeometry(QRect(QPoint(700, 200), QSize(700, 75)));
+  QString qstrDisplay;
+	string descriptionToLoad = stats[gameNumberInList-1].getNum();
+	qstrDisplay = QString::fromStdString(descriptionToLoad);
+
+	highestscore->setText(qstrDisplay);
+
+  highestscore->setStyleSheet("QLabel { background-color: black; font-weight : bold; font-size: 24px; border:none; color:#00FFFF; }");
+  highestscore->setVisible(true); 
 
   timeplayedTitle->setVisible(true);
   timeplayedTitle->setGeometry(QRect(QPoint(250, 350), QSize(700, 75)));
@@ -456,19 +571,40 @@ void MainWindow::handlestatsSelect(){
 void MainWindow::handleStatsButton()
 {
   readGameInfo();
-
   title->setText("STATS");
   startButton->setVisible(false);
   statsButton->setVisible(false);
   settingsButton->setVisible(false);
   quitButton->setVisible(false);
 
+  int mosti=0;
+  int most = 0;
+  for(int i=0;i<numAvailableGames;i++) {
+    if(stoi(stats[i].getNum())>most){
+      most=stoi(stats[i].getNum());
+      mosti=i;
+    }
+  }
   
   favgametitle->setVisible(true);
   favgametitle->setText("Favourite game:");
   favgametitle->setGeometry(QRect(QPoint(250, 200), QSize(700, 75)));
   favgametitle->setStyleSheet("QLabel { background-color: black; font-weight : bold; font-size: 24px; border:none; color:#00FFFF; }");
   
+  
+  favgame->setGeometry(QRect(QPoint(500, 200), QSize(700, 75)));
+  favgame->setStyleSheet("QLabel { background-color: black; font-weight : bold; font-size: 24px; border:none; color:#00FFFF; }");
+  QString fav = QString::fromStdString(stats[mosti].getTitle());
+  if(most==0){
+    favgame->setText("nothing played yet");
+  }
+  else{
+    favgame->setText(fav);
+  }
+  
+  favgame->setVisible(true);
+
+
   StatsList->setVisible(true);
   goBackFromStatsButton->setVisible(true);
 

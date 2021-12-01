@@ -1,3 +1,9 @@
+/***************************************************************************//**
+ * @brief Header file for statsinfo
+ *
+ * @authors Junshen Xu
+ ******************************************************************************/
+
 #include <iostream>
 #include <fstream>
 #include<string>
@@ -8,14 +14,16 @@ class StatsInfo{
 
     private:
         string time;
-        string score;
-    
+        string num;
+        string title;
     public:
+        void setTitle(string input);
         void settimePlayed(string input);
-        void setHighestScore(string input);
+        void setnumtime(string input);
         string getTime();
-        string getScore();
+        string getNum();
+        string getTitle();
 
-        StatsInfo(string Tinput,string Sinput);
+        StatsInfo(string Title,string Tinput,string Ninput);
         StatsInfo();
 };

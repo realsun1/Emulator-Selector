@@ -26,6 +26,11 @@
 #include "gameInfo.h"
 #include <QListWidget>
 #include <QPixmap>
+#include <QElapsedTimer>
+#include <QTime>
+#include "statsinfo.h"
+
+
 
 class MainWindow : public QMainWindow
 {
@@ -37,7 +42,7 @@ private slots:
   void handleBackFromStartButton();
   void handleStartButton();
   void handleStatsButton();
-  void handlestatsSelect();
+  void handlestatsSelect(QListWidgetItem *item);
   void handleBackFromStatsButton();
   void handleBacktoStats();
   void handleSettingsButton();
@@ -52,11 +57,15 @@ private slots:
   void blueValue();
   void readGameInfo();
   void handleGameSelected(QListWidgetItem *item);
+  void readstats();
+  void writestatsNum(int line);
 
   private:
   GameInfo games[100];
   int numAvailableGames;
-
+  StatsInfo stats[100];
+  int gameselected;
+  string mostplayed;
 private:
 
   QLabel *title, *colorPreview, *gameDscrip, *gameImageLabel, *Stats, *favgame, *favgametitle, *highestscoreTitle, *highestscore, *timeplayedTitle, *timePlayed;
@@ -68,7 +77,10 @@ private:
   QString r,g,b;
   QListWidget *gameTextList,*StatsList;
   QPixmap *gameImage;
+  QElapsedTimer timer;
 
 };
+
+
 #endif // MAINWINDOW_H
 
