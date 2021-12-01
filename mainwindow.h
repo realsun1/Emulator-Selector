@@ -1,7 +1,7 @@
 /***************************************************************************//**
  * @brief Header file for Main Window
  *
- * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen, Junshen Xu
+ * @authors Nicole Karas, Christopher Judkins, Sundin Nguyen, Junshen Xu, Ryan Howarth
  ******************************************************************************/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -62,6 +62,8 @@ private slots:
 
   private:
   GameInfo games[100];
+  string romToLoad;
+  string consoleToLoad;
   int numAvailableGames;
   StatsInfo stats[100];
   int gameselected;
