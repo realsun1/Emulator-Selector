@@ -122,7 +122,7 @@ MainWindow::MainWindow(QWidget *parent)
   executeGameButton = new QPushButton("BROWSE CATALOG", this);
   executeGameButton->setVisible(false);
   executeGameButton->setGeometry(QRect(QPoint(350, 600), QSize(300, 75)));
-  executeGameButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
+  executeGameButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:25px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
   connect(executeGameButton, &QPushButton::released, this, &MainWindow::handleExecuteGameButton);
 
   //GO BACK FROM GAME SELECTION BUTTON
