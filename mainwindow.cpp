@@ -169,12 +169,7 @@ MainWindow::MainWindow(QWidget *parent)
   highestscore = new QLabel(this);
   highestscore->setVisible(true);
 
-  timeplayedTitle = new QLabel(this);
-  timeplayedTitle->setText("Time Played:");
-  timeplayedTitle->setVisible(true);
   
-  timePlayed = new QLabel(this);
-  timePlayed->setVisible(true);
 
   readstats();
   
@@ -484,7 +479,6 @@ void MainWindow::handleBacktoStats(){
 
   gobackStats->setVisible(false);
   Stats->setVisible(false);
-  timeplayedTitle->setVisible(false);
   highestscoreTitle->setVisible(false);
   highestscore->setVisible(false);
 
@@ -549,10 +543,6 @@ void MainWindow::handlestatsSelect(QListWidgetItem *item){
 
   highestscore->setStyleSheet("QLabel { background-color: black; font-weight : bold; font-size: 24px; border:none; color:#00FFFF; }");
   highestscore->setVisible(true); 
-
-  timeplayedTitle->setVisible(true);
-  timeplayedTitle->setGeometry(QRect(QPoint(250, 350), QSize(700, 75)));
-  timeplayedTitle->setStyleSheet("QLabel { background-color: black; font-weight : bold; font-size: 24px; border:none; color:#00FFFF; }");
 
   gobackStats->setVisible(true);
 
