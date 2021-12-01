@@ -197,13 +197,15 @@ void MainWindow::handleGameSelected(QListWidgetItem *item) {
 	string sGameNumberInList = row.substr(0, lineNum);
 	cout << "number: " + sGameNumberInList << endl;
 	int gameNumberInList = stoi(sGameNumberInList);
-  gameselected = gameNumberInList;
+  	gameselected = gameNumberInList;
 	
 	goBackToListButton->setVisible(true);
 	executeGameButton->setVisible(true);
 	gameTextList->setVisible(false);
 
 	QString qstrDisplay;
+  	romToLoad = games[gameNumberInList-1].getRom();
+    consoleToLoad = games[gameNumberInList-1].getEmulator();
 	string descriptionToLoad = games[gameNumberInList-1].getDescription();
 	cout << descriptionToLoad << endl;
 	qstrDisplay = QString::fromStdString(descriptionToLoad);
@@ -257,7 +259,7 @@ void MainWindow::handleBackToListButton() {
  * Handles event when execute button is clicked from game selection menu, 
  * runs API to actually launch the game selected
  *
- * @authors Christopher Judkins,Junshen Xu
+ * @authors Christopher Judkins,Junshen Xu, Ryan Howarth
  ******************************************************************************/
 void MainWindow::handleExecuteGameButton() {
   //add and update number of time played for selected game
@@ -268,6 +270,8 @@ void MainWindow::handleExecuteGameButton() {
   stats[gameselected-1].setnumtime(res);
   writestatsNum(gameselected);
   
+  //Runs the command that launches the selected emulator after clicking the play button
+  system("/opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ " + consoleToLoad + " ~/RetroPie/roms/" + consoleToLoad + "/" + romToLoad + " && emulationstation"); 
 
 
 
