@@ -119,7 +119,7 @@ MainWindow::MainWindow(QWidget *parent)
   gameImageLabel->setVisible(false); 
 
   //PLAY GAME BUTTON
-  executeGameButton = new QPushButton("PLAY", this);
+  executeGameButton = new QPushButton("BROWSE CATALOG", this);
   executeGameButton->setVisible(false);
   executeGameButton->setGeometry(QRect(QPoint(350, 600), QSize(300, 75)));
   executeGameButton->setStyleSheet("QPushButton {background-color: black; color:#00FFFF; font-weight:bold; border: 2px solid #9900FF; font-size:30px; border-radius: 25px;}  QPushButton:hover{ background-color: #9900FF;}");
@@ -183,7 +183,7 @@ MainWindow::MainWindow(QWidget *parent)
  * 
  * @param item List item that represents the game selected
  *
- * @authors  Christopher Judkins
+ * @authors  Christopher Judkins, Ryan Howarth
  ******************************************************************************/
 void MainWindow::handleGameSelected(QListWidgetItem *item) {
 
@@ -271,8 +271,8 @@ void MainWindow::handleExecuteGameButton() {
   writestatsNum(gameselected);
   
   //Runs the command that launches the selected emulator after clicking the play button
-  system("/opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ " + consoleToLoad + " ~/RetroPie/roms/" + consoleToLoad + "/" + romToLoad + " && emulationstation"); 
-
+  //system("/opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ " + consoleToLoad + " ~/RetroPie/roms/" + consoleToLoad + "/" + romToLoad + " && emulationstation"); 
+  system("emulationstation");
 
 
 }
